@@ -20,6 +20,12 @@ public class InventoryPage extends BasePage {
     @FindBy(className = "inventory_item")
     private java.util.List<WebElement> inventoryItems;
 
+    @FindBy(css = "[data-test='add-to-cart-sauce-labs-bike-light']")
+    private WebElement addBikeLightButton;
+
+    @FindBy(css = "[data-test='shopping-cart-link']")
+    private WebElement cartLink;
+
     // CONSTRUCTOR
     public InventoryPage(WebDriver driver) {
         super(driver);
@@ -32,6 +38,14 @@ public class InventoryPage extends BasePage {
 
     public void removeBackpackFromCart() {
         click(removeBackpackButton);
+    }
+
+    public void addBikeLightToCart() {
+        click(addBikeLightButton);
+    }
+
+    public void goToCart() {
+        click(cartLink);
     }
 
     // GETTERS

@@ -6,9 +6,12 @@ import com.swaglabs.pages.LoginPage;
 import com.swaglabs.utils.ConfigReader;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import io.qameta.allure.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Epic("Shopping")
+@Feature("Inventory")
 public class InventoryTest extends BaseTest {
 
     private InventoryPage inventoryPage;
@@ -22,6 +25,8 @@ public class InventoryTest extends BaseTest {
     }
 
     @Test
+    @Story("Inventory displays all products")
+    @Severity(SeverityLevel.NORMAL)
     public void shouldShowSixProducts() {
         assertThat(inventoryPage.getProductCount())
                 .as("Inventory should list 6 products")
@@ -29,7 +34,9 @@ public class InventoryTest extends BaseTest {
     }
 
     @Test
-    public void addingOneItemShowsBadgeCountOne() {   // P2
+    @Story("Adding an item updates the cart badge")
+    @Severity(SeverityLevel.CRITICAL)
+    public void addingOneItemShowsBadgeCountOne() {
         inventoryPage.addBackpackToCart();
         assertThat(inventoryPage.getCartItemCount())
                 .as("Cart badge should show 1 after adding one item")
@@ -37,7 +44,9 @@ public class InventoryTest extends BaseTest {
     }
 
     @Test
-    public void removingItemClearsBadge() {           // B1 bonus
+    @Story("Removing an item clears the cart badge")
+    @Severity(SeverityLevel.NORMAL)
+    public void removingItemClearsBadge() {
         inventoryPage.addBackpackToCart();
         inventoryPage.removeBackpackFromCart();
         assertThat(inventoryPage.isCartBadgeVisible())
