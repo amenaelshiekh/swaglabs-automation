@@ -6,7 +6,6 @@ import com.swaglabs.utils.ConfigReader;
 import io.qameta.allure.*;
 import org.testng.annotations.*;
 
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Epic("Shopping")

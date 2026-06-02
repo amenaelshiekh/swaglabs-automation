@@ -68,4 +68,12 @@ public class InventoryPage extends BasePage {
             return false;
         }
     }
+
+    public boolean isAddBackpackButtonVisible() {
+        try {
+            return isDisplayed(addBackpackButton);
+        } catch (org.openqa.selenium.NoSuchElementException e) {
+            return false;
+        }
+    }
 }

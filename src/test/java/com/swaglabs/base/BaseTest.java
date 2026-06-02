@@ -21,18 +21,19 @@ public class BaseTest {
     public void setUp() {
         ChromeOptions options = new ChromeOptions();
 
-        // turn off Chrome's password manager + breach/leak detection popups
+        // disable password manager + leak/breach detection (prefs)
         Map<String, Object> prefs = new HashMap<>();
         prefs.put("credentials_enable_service", false);
         prefs.put("profile.password_manager_enabled", false);
         prefs.put("profile.password_manager_leak_detection", false);
         options.setExperimentalOption("prefs", prefs);
 
-        // suppress the "Chrome is being controlled by automated software" infobar
-        // and the password bubble that rides along with it
-        options.addArguments("--disable-features=PasswordLeakDetection");
+        // command-line flags - applied at launch, before any profile race
+        options.addArguments("--disable-features=PasswordLeakDetection,PasswordManagerOnboarding,AutofillServerCommunication");
+        options.addArguments("--disable-save-password-bubble");
+        options.addArguments("--guest");  // guest profile has no password-manager state at all
 
-        driver = new ChromeDriver();
+        driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         driver.get(ConfigReader.get("base.url"));
     }

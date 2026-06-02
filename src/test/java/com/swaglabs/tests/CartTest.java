@@ -5,11 +5,7 @@ import com.swaglabs.pages.CartPage;
 import com.swaglabs.pages.InventoryPage;
 import com.swaglabs.pages.LoginPage;
 import com.swaglabs.utils.ConfigReader;
-import io.qameta.allure.Epic;
-import io.qameta.allure.Feature;
-import io.qameta.allure.Severity;
-import io.qameta.allure.SeverityLevel;
-import io.qameta.allure.Story;
+import io.qameta.allure.*;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
