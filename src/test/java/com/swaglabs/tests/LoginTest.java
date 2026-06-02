@@ -71,4 +71,16 @@ public class LoginTest extends BaseTest {
                 .as("Empty password should be rejected")
                 .contains("Password is required");
     }
+
+    @Test
+    @Story("Credentials with surrounding whitespace are rejected")
+    @Severity(SeverityLevel.MINOR)
+    public void whitespaceInCredentialsIsRejected() {
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.login(" standard_user ", "secret_sauce");
+
+        assertThat(loginPage.getErrorMessage())
+                .as("Untrimmed credentials should not log the user in")
+                .contains("Username and password do not match");
+    }
 }

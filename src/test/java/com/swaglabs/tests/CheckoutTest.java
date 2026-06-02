@@ -89,4 +89,19 @@ public class CheckoutTest extends BaseTest {
                 .contains("Postal Code is required");
     }
 
+    @Test
+    @Story("KNOWN BUG (BUG-002): checkout should validate field content, not just non-emptiness")
+    @Issue("BUG-002")
+    @Severity(SeverityLevel.MINOR)
+    public void checkoutShouldRejectInvalidFieldContent() {   // intentionally FAILS - bugs.md BUG-002
+        // Invalid content: whitespace-only name + non-numeric postal code.
+        // A validating form should reject these and keep us on step one.
+        checkoutPage.fillForm("   ", "Doe", "abcde");
+
+        // EXPECTED: still on checkout-step-one (rejected). ACTUAL: advances to step-two (BUG-002).
+        assertThat(driver.getCurrentUrl())
+                .as("BUG-002: invalid field content should keep the user on step one")
+                .contains("checkout-step-one");
+    }
+
 }
