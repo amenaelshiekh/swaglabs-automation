@@ -2,7 +2,10 @@ package com.swaglabs.tests;
 
 import com.swaglabs.base.BaseTest;
 import com.swaglabs.pages.*;
+import com.swaglabs.utils.CheckoutData;
 import com.swaglabs.utils.ConfigReader;
+import com.swaglabs.utils.JsonReader;
+import com.swaglabs.utils.LoginData;
 import io.qameta.allure.*;
 import org.testng.annotations.*;
 
@@ -50,43 +53,29 @@ public class CheckoutTest extends BaseTest {
                 .contains("Thank you for your order");
     }
 
-    @Test
-    @Story("Checkout requires a first name")
-    @Severity(SeverityLevel.NORMAL)
-    public void missingFirstNameShowsError() {
-        checkoutPage.enterLastName("Doe");
-        checkoutPage.enterPostalCode("12345");
-        checkoutPage.clickContinue();
-
-        assertThat(checkoutPage.getErrorMessage())
-                .as("Should warn that first name is required")
-                .contains("First Name is required");
+    @DataProvider(name = "checkoutNegatives")
+    public Object[][] checkoutNegatives() {
+        CheckoutData[] data = JsonReader.readArray("testdata/checkout-data.json", CheckoutData[].class);
+        Object[][] rows = new Object[data.length][1];
+        for (int i = 0; i < data.length; i++) {
+            rows[i][0] = data[i];
+        }
+        return rows;
     }
 
-    @Test
-    @Story("Checkout requires a last name")
-    @Severity(SeverityLevel.MINOR)
-    public void missingLastNameShowsError() {
-        checkoutPage.enterFirstName("John");
-        checkoutPage.enterPostalCode("12345");
-        checkoutPage.clickContinue();
-
-        assertThat(checkoutPage.getErrorMessage())
-                .as("Should warn that last name is required")
-                .contains("Last Name is required");
-    }
-
-    @Test
-    @Story("Checkout requires a postal code")
+    @Test(dataProvider = "checkoutNegatives")
+    @Story("Checkout form fields should be required")
     @Severity(SeverityLevel.NORMAL)
-    public void missingPostalCodeShowsError() {
-        checkoutPage.enterFirstName("John");
-        checkoutPage.enterLastName("Doe");
+    public void checkoutShouldRequireAllFields(CheckoutData data) {
+        checkoutPage.enterFirstName(data.firstName);
+        checkoutPage.enterLastName(data.lastName);
+        checkoutPage.enterPostalCode(data.postalCode);
         checkoutPage.clickContinue();
 
         assertThat(checkoutPage.getErrorMessage())
-                .as("Should warn that postal code is required")
-                .contains("Postal Code is required");
+                .as("Scenario '%s' should show the expected error", data.scenario)
+                .contains(data.expectedError);
+
     }
 
     @Test

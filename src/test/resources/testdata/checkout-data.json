@@ -1,0 +1,23 @@
+[
+  {
+    "scenario": "first name missing",
+    "firstName": "",
+    "lastName": "Doe",
+    "postalCode": "12345",
+    "expectedError": "First Name is required"
+  },
+  {
+    "scenario": "last name missing",
+    "firstName": "John",
+    "lastName": "",
+    "postalCode": "12345",
+    "expectedError": "Last Name is required"
+  },
+  {
+    "scenario": "postal code missing",
+    "firstName": "John",
+    "lastName": "Doe",
+    "postalCode": "",
+    "expectedError": "Postal Code is required"
+  }
+]

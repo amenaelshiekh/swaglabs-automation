@@ -1,0 +1,32 @@
+[
+  {
+    "scenario": "wrong password",
+    "username": "standard_user",
+    "password": "wrong_password",
+    "expectedError": "Username and password do not match"
+  },
+  {
+    "scenario": "empty username",
+    "username": "",
+    "password": "secret_sauce",
+    "expectedError": "Username is required"
+  },
+  {
+    "scenario": "empty password",
+    "username": "standard_user",
+    "password": "",
+    "expectedError": "Password is required"
+  },
+  {
+    "scenario": "surrounding whitespace",
+    "username": " standard_user ",
+    "password": "secret_sauce",
+    "expectedError": "Username and password do not match"
+  },
+  {
+    "scenario": "wrong case username",
+    "username": "Standard_User",
+    "password": "secret_sauce",
+    "expectedError": "Username and password do not match"
+  }
+]

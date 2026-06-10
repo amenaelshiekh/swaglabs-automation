@@ -5,6 +5,9 @@ import com.swaglabs.pages.LoginPage;
 import com.swaglabs.utils.ConfigReader;
 import org.testng.annotations.Test;
 import io.qameta.allure.*;
+import com.swaglabs.utils.JsonReader;
+import com.swaglabs.utils.LoginData;
+import org.testng.annotations.DataProvider;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -36,63 +39,25 @@ public class LoginTest extends BaseTest {
                 .contains("locked out");
     }
 
-    @Test
-    @Story("Wrong password is rejected")
+    @DataProvider(name = "loginNegatives")
+    public Object[][] loginNegatives() {
+        LoginData[] data = JsonReader.readArray("testdata/login-data.json", LoginData[].class);
+        Object[][] rows = new Object[data.length][1];
+        for (int i = 0; i < data.length; i++) {
+            rows[i][0] = data[i];
+        }
+        return rows;
+    }
+
+    @Test(dataProvider = "loginNegatives")
+    @Story("Invalid login attempts are rejected")
     @Severity(SeverityLevel.NORMAL)
-    public void testWrongPassword() {                       // N2
+    public void invalidLoginShowsError(LoginData data) {
         LoginPage loginPage = new LoginPage(driver);
-        loginPage.login(ConfigReader.get("standard.username"), "wrong_password");
+        loginPage.login(data.username, data.password);
 
         assertThat(loginPage.getErrorMessage())
-                .as("Wrong password should be rejected")
-                .contains("Username and password do not match");
-    }
-
-    @Test
-    @Story("Empty username is rejected")
-    @Severity(SeverityLevel.NORMAL)
-    public void testEmptyUsername() {                       // N3
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.login("", ConfigReader.get("password"));
-
-        assertThat(loginPage.getErrorMessage())
-                .as("Empty username should be rejected")
-                .contains("Username is required");
-    }
-
-    @Test
-    @Story("Empty password is rejected")
-    @Severity(SeverityLevel.NORMAL)
-    public void testEmptyPassword() {                       // N4
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.login(ConfigReader.get("standard.username"), "");
-
-        assertThat(loginPage.getErrorMessage())
-                .as("Empty password should be rejected")
-                .contains("Password is required");
-    }
-
-    @Test
-    @Story("Credentials with surrounding whitespace are rejected")
-    @Severity(SeverityLevel.MINOR)
-    public void whitespaceInCredentialsIsRejected() {
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.login(" standard_user ", "secret_sauce");
-
-        assertThat(loginPage.getErrorMessage())
-                .as("Untrimmed credentials should not log the user in")
-                .contains("Username and password do not match");
-    }
-
-    @Test
-    @Story("Usernames are case-sensitive")
-    @Severity(SeverityLevel.MINOR)
-    public void usernameCaseSensitivityIsRejected() {
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.login("Standard_User", ConfigReader.get("password"));
-
-        assertThat(loginPage.getErrorMessage())
-                .as("Mixed-case username should not match the lowercase account")
-                .contains("Username and password do not match");
+                .as("Scenario '%s' should be rejected", data.scenario)
+                .contains(data.expectedError);
     }
 }
