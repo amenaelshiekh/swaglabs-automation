@@ -15,6 +15,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <aspectj.version>1.9.25.1</aspectj.version>
         <allure.version>2.35.2</allure.version>
+        <excluded.groups></excluded.groups>
     </properties>
 
     <!-- Add allure-bom to dependency management to ensure correct versions of all the dependencies are used -->
@@ -97,6 +98,7 @@
                     <argLine>
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                     </argLine>
+                    <excludedGroups>${excluded.groups}</excludedGroups>
                 </configuration>
             </plugin>
         </plugins>

@@ -21,6 +21,11 @@ public class ConfigReader {
     }
 
     public static String get(String key) {
+        // a -D system property overrides the file (used by CI to force headless=true)
+        String override = System.getProperty(key);
+        if (override != null) {
+            return override;
+        }
         return properties.getProperty(key);
     }
 

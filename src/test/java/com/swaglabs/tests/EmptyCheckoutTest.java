@@ -22,7 +22,7 @@ public class EmptyCheckoutTest extends BaseTest {
                 ConfigReader.get("password"));
     }
 
-    @Test
+    @Test(groups = "known-bugs")
     @Story("KNOWN BUG (BUG-003): checkout should be blocked when the cart is empty")
     @Issue("BUG-003")
     @Severity(SeverityLevel.NORMAL)

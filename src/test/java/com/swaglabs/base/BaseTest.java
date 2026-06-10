@@ -29,6 +29,12 @@ public class BaseTest {
         options.addArguments("--disable-save-password-bubble");
         options.addArguments("--guest");  // guest profile has no password-manager state at all
 
+        if (Boolean.parseBoolean(ConfigReader.get("headless"))) {
+            options.addArguments("--headless=new");
+            options.addArguments("--window-size=1920,1080");
+            options.addArguments("--disable-gpu");
+        }
+
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         driver.get(ConfigReader.get("base.url"));
