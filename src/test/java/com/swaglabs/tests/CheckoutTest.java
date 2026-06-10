@@ -104,4 +104,18 @@ public class CheckoutTest extends BaseTest {
                 .contains("checkout-step-one");
     }
 
+    @Test
+    @Story("Cart contents survive cancelling checkout")
+    @Severity(SeverityLevel.NORMAL)
+    public void cartPersistsAfterCancellingCheckout() {
+        // @BeforeMethod added a backpack and reached checkout step one.
+        checkoutPage.clickCancel();          // back to inventory (or cart, depending on step)
+
+        // cart should still hold the backpack
+        InventoryPage inventoryPage = new InventoryPage(driver);
+        assertThat(inventoryPage.getCartItemCount())
+                .as("Cart should still contain the item after cancelling checkout")
+                .isEqualTo(1);
+    }
+
 }

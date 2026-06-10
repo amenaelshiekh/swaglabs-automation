@@ -83,4 +83,16 @@ public class LoginTest extends BaseTest {
                 .as("Untrimmed credentials should not log the user in")
                 .contains("Username and password do not match");
     }
+
+    @Test
+    @Story("Usernames are case-sensitive")
+    @Severity(SeverityLevel.MINOR)
+    public void usernameCaseSensitivityIsRejected() {
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.login("Standard_User", ConfigReader.get("password"));
+
+        assertThat(loginPage.getErrorMessage())
+                .as("Mixed-case username should not match the lowercase account")
+                .contains("Username and password do not match");
+    }
 }

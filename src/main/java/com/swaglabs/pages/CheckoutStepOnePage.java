@@ -12,6 +12,7 @@ public class CheckoutStepOnePage extends BasePage {
     @FindBy(css = "[data-test='postalCode']") private WebElement postalCodeField;
     @FindBy(css = "[data-test='continue']")   private WebElement continueButton;
     @FindBy(css = "[data-test='error']")      private WebElement errorMessage;
+    @FindBy(css = "[data-test='cancel']")   private WebElement cancelButton;
 
     // CONSTRUCTOR
     public CheckoutStepOnePage(WebDriver driver) {
@@ -30,6 +31,10 @@ public class CheckoutStepOnePage extends BasePage {
         enterLastName(last);
         enterPostalCode(postal);
         clickContinue();
+    }
+
+    public void clickCancel() {
+        click(cancelButton);
     }
 
     // GETTER

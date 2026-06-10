@@ -53,4 +53,27 @@ public class InventoryTest extends BaseTest {
                 .as("Cart badge should disappear after removing the only item")
                 .isFalse();
     }
+
+    @Test
+    @Story("Products can be sorted by price ascending")
+    @Severity(SeverityLevel.NORMAL)
+    public void sortingByPriceLowToHigh() {
+        inventoryPage.sortBy("Price (low to high)");
+
+        assertThat(inventoryPage.getItemPrices())
+                .as("Prices should be in ascending order")
+                .isSorted();
+    }
+
+    @Test
+    @Story("Products can be sorted by name Z to A")
+    @Severity(SeverityLevel.MINOR)
+    public void sortingByNameZtoA() {
+        inventoryPage.sortBy("Name (Z to A)");
+
+        java.util.List<String> names = inventoryPage.getItemNames();
+        assertThat(names)
+                .as("Names should be in reverse-alphabetical order")
+                .isSortedAccordingTo(java.util.Comparator.reverseOrder());
+    }
 }

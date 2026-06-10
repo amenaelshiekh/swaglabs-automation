@@ -45,3 +45,23 @@ The form performs only a non-empty check. Any non-empty value is accepted — no
 Demonstrated by `CheckoutTest.checkoutShouldRejectInvalidFieldContent` (intentionally failing,
 linked to BUG-002). The form accepts whitespace-only names and non-numeric postal codes and
 advances to checkout-step-two; a validating form should remain on step one.
+
+## BUG-003 — Checkout can proceed with an empty cart
+
+- **Severity:** Normal
+- **Area:** Cart / Checkout
+- **Status:** Open (present as of <date>)
+
+**Steps to reproduce**
+1. Log in as `standard_user`.
+2. Without adding any product, open the cart.
+3. Click "Checkout".
+
+**Expected result**
+Checkout should be blocked or disabled when the cart is empty — there is nothing to purchase.
+
+**Actual result**
+The app proceeds to the checkout flow with an empty cart, allowing an order of zero items.
+
+**Notes**
+Demonstrated by `EmptyCheckoutTest.checkoutShouldBeBlockedWithEmptyCart` (intentionally failing, linked to BUG-003).

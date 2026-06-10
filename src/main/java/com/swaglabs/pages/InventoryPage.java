@@ -1,5 +1,6 @@
 package com.swaglabs.pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -26,6 +27,18 @@ public class InventoryPage extends BasePage {
     @FindBy(css = "[data-test='shopping-cart-link']")
     private WebElement cartLink;
 
+    @FindBy(css = "[data-test='product-sort-container']")
+    private WebElement sortDropdown;
+
+    @FindBy(className = "inventory_item_price")
+    private java.util.List<WebElement> itemPrices;
+
+    @FindBy(className = "inventory_item_name")
+    private java.util.List<WebElement> itemNames;
+
+    @FindBy(css = "[data-test='item-4-title-link']")
+    private WebElement backpackNameLink;
+
     // CONSTRUCTOR
     public InventoryPage(WebDriver driver) {
         super(driver);
@@ -48,25 +61,24 @@ public class InventoryPage extends BasePage {
         click(cartLink);
     }
 
+    public void openBackpackDetail() {
+        click(backpackNameLink);
+    }
+
     // GETTERS
     public int getProductCount() {
         return inventoryItems.size();
     }
 
     public int getCartItemCount() {
-        try {
-            return Integer.parseInt(getText(cartBadge));
-        } catch (NoSuchElementException e) {
-            return 0; // no badge element shown = empty cart
-        }
+        java.util.List<WebElement> badge =
+                driver.findElements(By.cssSelector("[data-test='shopping-cart-badge']"));
+        return badge.isEmpty() ? 0 : Integer.parseInt(badge.get(0).getText());
     }
 
     public boolean isCartBadgeVisible() {
-        try {
-            return isDisplayed(cartBadge);
-        } catch (NoSuchElementException e) {
-            return false;
-        }
+        return !driver.findElements(
+                By.cssSelector("[data-test='shopping-cart-badge']")).isEmpty();
     }
 
     public boolean isAddBackpackButtonVisible() {
@@ -75,5 +87,20 @@ public class InventoryPage extends BasePage {
         } catch (org.openqa.selenium.NoSuchElementException e) {
             return false;
         }
+    }
+
+    public void sortBy(String visibleText) {
+        new org.openqa.selenium.support.ui.Select(sortDropdown).selectByVisibleText(visibleText);
+    }
+
+    public java.util.List<String> getItemNames() {
+        return itemNames.stream().map(this::getText)
+                .collect(java.util.stream.Collectors.toList());
+    }
+
+    public java.util.List<Double> getItemPrices() {
+        return itemPrices.stream()
+                .map(e -> Double.parseDouble(getText(e).replace("$", "")))
+                .collect(java.util.stream.Collectors.toList());
     }
 }
