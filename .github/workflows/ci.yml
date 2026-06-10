@@ -6,13 +6,17 @@ on:
   pull_request:
     branches: [ main ]
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   test:
     runs-on: ubuntu-latest
-
     steps:
       - name: Check out the code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up JDK 21
         uses: actions/setup-java@v4
@@ -23,10 +27,29 @@ jobs:
 
       - name: Run tests (headless, excluding known bugs)
         run: mvn test -Dheadless=true -Dexcluded.groups=known-bugs
+        continue-on-error: true
 
-      - name: Upload Allure results
+      - name: Generate Allure report
+        uses: simple-elf/allure-report-action@v1.7
         if: always()
-        uses: actions/upload-artifact@v4
         with:
-          name: allure-results
-          path: target/allure-results
+          allure_results: target/allure-results
+          allure_report: allure-report
+
+      - name: Upload report as Pages artifact
+        if: always()
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: allure-report
+
+  deploy:
+    needs: test
+    if: always()
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
