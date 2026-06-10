@@ -1,10 +1,12 @@
 package com.swaglabs.pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.Select;
 
 public class InventoryPage extends BasePage {
 
@@ -39,30 +41,47 @@ public class InventoryPage extends BasePage {
     @FindBy(css = "[data-test='item-4-title-link']")
     private WebElement backpackNameLink;
 
+    @FindBy(css = "button[data-test^='add-to-cart']")
+    private java.util.List<WebElement> addToCartButtons;
+
     // CONSTRUCTOR
     public InventoryPage(WebDriver driver) {
         super(driver);
     }
 
     // ACTIONS
+    @Step("Add backpack to cart")
     public void addBackpackToCart() {
         click(addBackpackButton);
     }
 
+    @Step("Remove backpack from cart")
     public void removeBackpackFromCart() {
         click(removeBackpackButton);
     }
 
+    @Step("Add bike light to cart")
     public void addBikeLightToCart() {
         click(addBikeLightButton);
     }
 
+    @Step("Open the cart")
     public void goToCart() {
         click(cartLink);
     }
 
     public void openBackpackDetail() {
         click(backpackNameLink);
+    }
+
+    @Step("Sort products by '{visibleText}'")
+    public void sortBy(String visibleText) {
+        new Select(sortDropdown).selectByVisibleText(visibleText);
+    }
+
+    @Step("Add first item to cart")
+    public void addFirstItemToCart() {
+        click(addToCartButtons.get(0));
     }
 
     // GETTERS
@@ -87,10 +106,6 @@ public class InventoryPage extends BasePage {
         } catch (org.openqa.selenium.NoSuchElementException e) {
             return false;
         }
-    }
-
-    public void sortBy(String visibleText) {
-        new org.openqa.selenium.support.ui.Select(sortDropdown).selectByVisibleText(visibleText);
     }
 
     public java.util.List<String> getItemNames() {

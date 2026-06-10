@@ -1,12 +1,13 @@
 package com.swaglabs.pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class LoginPage extends BasePage {
 
-    // 1. LOCATORS - each @FindBy ties a field to an element on the page
+    // 1. LOCATORS
     @FindBy(id = "user-name")            private WebElement usernameField;
     @FindBy(id = "password")             private WebElement passwordField;
     @FindBy(id = "login-button")         private WebElement loginButton;
@@ -17,7 +18,8 @@ public class LoginPage extends BasePage {
         super(driver);
     }
 
-    // 3. ACTIONS - what a user can DO on this page
+    // 3. ACTIONS
+    @Step("Log in as '{username}'")
     public void login(String username, String password) {
         type(usernameField, username);
         type(passwordField, password);

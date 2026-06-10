@@ -1,5 +1,6 @@
 package com.swaglabs.pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -25,10 +26,12 @@ public class CartPage extends BasePage {
     }
 
     // ACTIONS
+    @Step("Remove backpack from cart")
     public void removeBackpack() {
         click(removeBackpackButton);
     }
 
+    @Step("Proceed to checkout")
     public void clickCheckout() {
         click(checkoutButton);
     }
