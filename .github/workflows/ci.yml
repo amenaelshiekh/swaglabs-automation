@@ -25,9 +25,8 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Run tests (headless, excluding known bugs)
-        run: mvn test -Dheadless=true -Dexcluded.groups=known-bugs
-        continue-on-error: true
+      - name: Run tests (full suite)
+        run: mvn test -Dheadless=true
 
       - name: Install Allure CLI
         if: always()
