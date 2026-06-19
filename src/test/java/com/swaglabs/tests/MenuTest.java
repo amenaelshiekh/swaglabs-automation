@@ -63,7 +63,7 @@ public class MenuTest extends BaseTest {
 
     @Test(groups = "known-bugs")
     @Story("KNOWN BUG (BUG-001): Reset App State should restore Add-to-cart buttons")
-    @Issue("BUG-001")
+    @Issue("bug-001")
     @Severity(SeverityLevel.MINOR)
     public void resetShouldRestoreAddButton() {
         inventoryPage.addBackpackToCart();

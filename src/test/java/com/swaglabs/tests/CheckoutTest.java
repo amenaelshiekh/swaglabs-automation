@@ -80,7 +80,7 @@ public class CheckoutTest extends BaseTest {
 
     @Test(groups = "known-bugs")
     @Story("KNOWN BUG (BUG-002): checkout should validate field content, not just non-emptiness")
-    @Issue("BUG-002")
+    @Issue("bug-002")
     @Severity(SeverityLevel.MINOR)
     public void checkoutShouldRejectInvalidFieldContent() {   // intentionally FAILS - bugs.md BUG-002
         // Invalid content: whitespace-only name + non-numeric postal code.

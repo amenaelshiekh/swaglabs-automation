@@ -5,7 +5,9 @@ These are issues in the SauceDemo app itself, not in the test framework.
 
 ---
 
-## BUG-001 — "Reset App State" does not restore inventory buttons
+## BUG-001 
+### "Reset App State" does not restore inventory buttons
+
 
 - **Severity:** Minor
 - **Area:** Inventory / Menu
@@ -22,7 +24,8 @@ The cart is emptied AND the product's button reverts from "Remove" to "Add to ca
 **Actual result**
 The cart badge is cleared, but the product button still shows "Remove" until the page is manually reloaded.
 
-## BUG-002 — Checkout step one does not validate field content
+## BUG-002 
+### Checkout step one does not validate field content
 
 - **Severity:** Minor
 - **Area:** Checkout (Your Information form)
@@ -46,7 +49,8 @@ Demonstrated by `CheckoutTest.checkoutShouldRejectInvalidFieldContent` (intentio
 linked to BUG-002). The form accepts whitespace-only names and non-numeric postal codes and
 advances to checkout-step-two; a validating form should remain on step one.
 
-## BUG-003 — Checkout can proceed with an empty cart
+## BUG-003 
+### Checkout can proceed with an empty cart
 
 - **Severity:** Normal
 - **Area:** Cart / Checkout

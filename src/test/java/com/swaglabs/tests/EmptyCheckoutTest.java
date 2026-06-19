@@ -24,7 +24,7 @@ public class EmptyCheckoutTest extends BaseTest {
 
     @Test(groups = "known-bugs")
     @Story("KNOWN BUG (BUG-003): checkout should be blocked when the cart is empty")
-    @Issue("BUG-003")
+    @Issue("bug-003")
     @Severity(SeverityLevel.NORMAL)
     public void checkoutShouldBeBlockedWithEmptyCart() {   // intentionally FAILS - bugs.md BUG-003
         InventoryPage inventoryPage = new InventoryPage(driver);
